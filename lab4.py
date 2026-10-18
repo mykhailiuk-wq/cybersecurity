@@ -79,11 +79,12 @@ def decrypt_block(block8: str, k1: str, k2: str) -> str:
 
 def text_to_bits(text: str) -> list[str]:
     """Перетворює текст у список 8-бітних рядків."""
-    return [f"{ord(char):08b}" for char in text]
+    return [f"{byte:08b}" for byte in text.encode("utf-8")]
 
 def bits_to_text(bits_list: list[str]) -> str:
     """Перетворює список 8-бітних рядків назад у текст."""
-    return "".join(chr(int(b, 2)) for b in bits_list)
+    data = bytes(int(b, 2) for b in bits_list)
+    return data.decode("utf-8")
 
 
 def main():
@@ -123,7 +124,7 @@ def main():
         cipher_hex = "".join(f"{int(b, 2):02X}" for b in encrypted_bits)
         restored_text = bits_to_text(decrypted_bits)
         print(f"\nЗашифрований текст (HEX): {cipher_hex}")
-        print(f"Відновлений текст:        {restored_text}")
+        print(f"Відновлений текст: {restored_text}")
     else:
         print("Невірний вибір!")
 
