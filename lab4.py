@@ -42,7 +42,6 @@ def generate_keys(key_10bit: str) -> tuple[str, str]:
     left_ls1, right_ls1 = left_shift(left, 1), left_shift(right, 1)
     k1 = permute(left_ls1 + right_ls1, P8)
 
-    # 3. Зсув ще на 2 біти вліво та P8 -> K2
     left_ls2, right_ls2 = left_shift(left_ls1, 2), left_shift(right_ls1, 2)
     k2 = permute(left_ls2 + right_ls2, P8)
 
