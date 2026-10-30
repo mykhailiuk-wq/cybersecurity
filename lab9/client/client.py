@@ -30,11 +30,16 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-from common.security import parse_level, parse_role, rights_text, sorted_rights, level_name
-
-# Дозволяє запускати файл напряму: python client/client.py ...
-if __package__ in (None, ""):
-    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Корінь проєкту додається до sys.path завжди: це дозволяє запускати і
+# ``python client/client.py``, і ``python -m client.client``, і
+# ``python -m lab9.client.client`` з батьківського каталогу.
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if sys.path[:1] != [PROJECT_ROOT]:
+    try:
+        sys.path.remove(PROJECT_ROOT)
+    except ValueError:
+        pass
+    sys.path.insert(0, PROJECT_ROOT)
 
 from common.crypto import (
     DEFAULT_ALGORITHM,
@@ -53,7 +58,13 @@ from common.protocol import (
     parse_endpoint,
     validate_user_id,
 )
-
+from common.security import (
+    level_name,
+    parse_level,
+    parse_role,
+    rights_text,
+    sorted_rights,
+)
 from common.util import configure_stdio, iso_now
 from client.token_file import (
     TOKEN_FORMAT,

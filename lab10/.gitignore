@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Робоча база даних і журнали сервера
+data/
+*.db
+*.db-wal
+*.db-shm
+
+# Локальні токени (не повинні потрапляти до репозиторію)
+usb_auth_token.json
+usb_auth_token.json.tmp

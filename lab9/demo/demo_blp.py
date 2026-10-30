@@ -22,7 +22,11 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-if str(PROJECT_ROOT) not in sys.path:
+if sys.path[:1] != [str(PROJECT_ROOT)]:
+    try:
+        sys.path.remove(str(PROJECT_ROOT))
+    except ValueError:
+        pass
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from client.client import AuthSession, open_session, register

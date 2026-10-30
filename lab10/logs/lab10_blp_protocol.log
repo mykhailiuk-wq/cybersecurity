@@ -1,0 +1,286 @@
+
+==============================================================================
+ЛАБОРАТОРНА 10. МОДЕЛЬ БЕЛЛА-ЛАПАДУЛА БЕЗ КАТЕГОРІЙ (БАЗОВИЙ СЦЕНАРІЙ)
+==============================================================================
+Час запуску: 2026-10-30T16:31:28
+Проєкт: D:\cybersecurity\lab10
+Протокол: D:\cybersecurity\lab10\logs\lab10_blp_protocol.log
+Сервер: 127.0.0.1:64915 (loopback)
+База даних: D:\cybersecurity\lab10\data\lab10-blp\auth.db
+
+==============================================================================
+1. РЕЄСТРАЦІЯ КОРИСТУВАЧІВ І ТОКЕНІВ
+==============================================================================
+[alice] код видано, токен записано: data\lab10-blp\tokens\alice\usb_auth_token.json
+         допуск: TOP_SECRET; роль: admin
+         рукостискання: OK, сеанс 365981ca378f16a4
+[bob] код видано, токен записано: data\lab10-blp\tokens\bob\usb_auth_token.json
+         допуск: SECRET; роль: user
+         рукостискання: OK, сеанс 00832a06baa5e0b9
+[carol] код видано, токен записано: data\lab10-blp\tokens\carol\usb_auth_token.json
+         допуск: CONFIDENTIAL; роль: user
+         рукостискання: OK, сеанс a6c57c617a4fc3df
+[dave] код видано, токен записано: data\lab10-blp\tokens\dave\usb_auth_token.json
+         допуск: UNCLASSIFIED; роль: user
+         рукостискання: OK, сеанс a03181892f506e86
+
+==============================================================================
+2. СТВОРЕННЯ СЕРВЕРНИХ ОБ'ЄКТІВ (11 об'єктів)
+==============================================================================
+
+#01 [alice / TOP_SECRET] CREATE ts-plan
+  -> {"action": "create", "name": "ts-plan", "level": 4, "kind": "text", "content": "TOP_SECRET: план захисту периметра.\n"}
+  <- {"type": "object_result", "ok": true, "action": "create", "object_id": 1, "object": {"name": "ts-plan", "owner": "alice", "level": "TOP_SECRET", "level_rank": 4, "kind": "text", "size": 56, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#02 [alice / TOP_SECRET] CREATE ts-keys
+  -> {"action": "create", "name": "ts-keys", "level": 4, "kind": "file", "content": "TOP_SECRET: перелік ключів (демонстраційні дані).\n"}
+  <- {"type": "object_result", "ok": true, "action": "create", "object_id": 2, "object": {"name": "ts-keys", "owner": "alice", "level": "TOP_SECRET", "level_rank": 4, "kind": "file", "size": 81, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#03 [alice / TOP_SECRET] CREATE ts-notes
+  -> {"action": "create", "name": "ts-notes", "level": 4, "kind": "text", "content": "TOP_SECRET: нотатки адміністратора.\n"}
+  <- {"type": "object_result", "ok": true, "action": "create", "object_id": 3, "object": {"name": "ts-notes", "owner": "alice", "level": "TOP_SECRET", "level_rank": 4, "kind": "text", "size": 57, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#04 [bob / SECRET] CREATE s-report
+  -> {"action": "create", "name": "s-report", "level": 3, "kind": "text", "content": "SECRET: звіт про інцидент.\n"}
+  <- {"type": "object_result", "ok": true, "action": "create", "object_id": 4, "object": {"name": "s-report", "owner": "bob", "level": "SECRET", "level_rank": 3, "kind": "text", "size": 42, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#05 [bob / SECRET] CREATE s-design
+  -> {"action": "create", "name": "s-design", "level": 3, "kind": "text", "content": "SECRET: схема сегмента мережі.\n"}
+  <- {"type": "object_result", "ok": true, "action": "create", "object_id": 5, "object": {"name": "s-design", "owner": "bob", "level": "SECRET", "level_rank": 3, "kind": "text", "size": 50, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#06 [bob / SECRET] CREATE s-tasks
+  -> {"action": "create", "name": "s-tasks", "level": 3, "kind": "text", "content": "SECRET: перелік завдань групи.\n"}
+  <- {"type": "object_result", "ok": true, "action": "create", "object_id": 6, "object": {"name": "s-tasks", "owner": "bob", "level": "SECRET", "level_rank": 3, "kind": "text", "size": 50, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#07 [carol / CONFIDENTIAL] CREATE c-budget
+  -> {"action": "create", "name": "c-budget", "level": 2, "kind": "text", "content": "CONFIDENTIAL: бюджет підрозділу.\n"}
+  <- {"type": "object_result", "ok": true, "action": "create", "object_id": 7, "object": {"name": "c-budget", "owner": "carol", "level": "CONFIDENTIAL", "level_rank": 2, "kind": "text", "size": 49, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#08 [carol / CONFIDENTIAL] CREATE c-contacts
+  -> {"action": "create", "name": "c-contacts", "level": 2, "kind": "text", "content": "CONFIDENTIAL: контакти партнерів.\n"}
+  <- {"type": "object_result", "ok": true, "action": "create", "object_id": 8, "object": {"name": "c-contacts", "owner": "carol", "level": "CONFIDENTIAL", "level_rank": 2, "kind": "text", "size": 51, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#09 [dave / UNCLASSIFIED] CREATE u-readme
+  -> {"action": "create", "name": "u-readme", "level": 1, "kind": "file", "content": "Публічна інструкція лабораторної роботи.\nОб'єкт створено з текстового файлу.\n"}
+  <- {"type": "object_result", "ok": true, "action": "create", "object_id": 9, "object": {"name": "u-readme", "owner": "dave", "level": "UNCLASSIFIED", "level_rank": 1, "kind": "file", "size": 142, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#10 [dave / UNCLASSIFIED] CREATE u-faq
+  -> {"action": "create", "name": "u-faq", "level": 1, "kind": "text", "content": "UNCLASSIFIED: часті запитання.\n"}
+  <- {"type": "object_result", "ok": true, "action": "create", "object_id": 10, "object": {"name": "u-faq", "owner": "dave", "level": "UNCLASSIFIED", "level_rank": 1, "kind": "text", "size": 45, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+==============================================================================
+3. ЧИТАННЯ ВЛАСНИХ ОБ'ЄКТІВ (мандатні правила)
+==============================================================================
+
+#11 [alice / TOP_SECRET] LIST
+  -> {"action": "list"}
+  <- {"type": "object_result", "ok": true, "action": "list", "count": 3, "objects": [{"name": "ts-keys", "owner": "alice", "level": "TOP_SECRET", "level_rank": 4, "kind": "file", "size": 81, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}, {"name": "ts-notes", "owner": "alice", "level": "TOP_SECRET", "level_rank": 4, "kind": "text", "size": 57, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}, {"name": "ts-plan", "owner": "alice", "level": "TOP_SECRET", "level_rank": 4, "kind": "text", "size": 56, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}]}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#12 [alice / TOP_SECRET] READ ts-plan
+  -> {"action": "read", "name": "ts-plan"}
+  <- {"type": "object_result", "ok": true, "action": "read", "name": "ts-plan", "content": "TOP_SECRET: план захисту периметра.\n", "object": {"name": "ts-plan", "owner": "alice", "level": "TOP_SECRET", "level_rank": 4, "kind": "text", "size": 56, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#13 [alice / TOP_SECRET] WRITE ts-plan
+  -> {"action": "write", "name": "ts-plan", "content": "TOP_SECRET: план захисту периметра (версія 2).\n"}
+  <- {"type": "object_result", "ok": true, "action": "write", "name": "ts-plan", "size": 73, "object": {"name": "ts-plan", "owner": "alice", "level": "TOP_SECRET", "level_rank": 4, "kind": "text", "size": 73, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#14 [bob / SECRET] READ s-report
+  -> {"action": "read", "name": "s-report"}
+  <- {"type": "object_result", "ok": true, "action": "read", "name": "s-report", "content": "SECRET: звіт про інцидент.\n", "object": {"name": "s-report", "owner": "bob", "level": "SECRET", "level_rank": 3, "kind": "text", "size": 42, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#15 [carol / CONFIDENTIAL] READ c-budget
+  -> {"action": "read", "name": "c-budget"}
+  <- {"type": "object_result", "ok": true, "action": "read", "name": "c-budget", "content": "CONFIDENTIAL: бюджет підрозділу.\n", "object": {"name": "c-budget", "owner": "carol", "level": "CONFIDENTIAL", "level_rank": 2, "kind": "text", "size": 49, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#16 [dave / UNCLASSIFIED] READ u-readme
+  -> {"action": "read", "name": "u-readme"}
+  <- {"type": "object_result", "ok": true, "action": "read", "name": "u-readme", "content": "Публічна інструкція лабораторної роботи.\nОб'єкт створено з текстового файлу.\n", "object": {"name": "u-readme", "owner": "dave", "level": "UNCLASSIFIED", "level_rank": 1, "kind": "file", "size": 142, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+==============================================================================
+4. ДИСКРЕЦІЙНА ВІДМОВА: НЕМАЄ ПРАВА В ACL
+==============================================================================
+
+#17 [alice / TOP_SECRET] READ s-report
+  -> {"action": "read", "name": "s-report"}
+  <- {"type": "object_result", "ok": false, "action": "read", "code": "denied", "reason": "дискреційна відмова: немає права 'read' в ACL об'єкта", "level": "SECRET", "rights_text": "-"}
+  РЕЗУЛЬТАТ: ВІДМОВА [denied] дискреційна відмова: немає права 'read' в ACL об'єкта
+
+#18 [dave / UNCLASSIFIED] READ c-budget
+  -> {"action": "read", "name": "c-budget"}
+  <- {"type": "object_result", "ok": false, "action": "read", "code": "denied", "reason": "дискреційна відмова: немає права 'read' в ACL об'єкта", "level": "CONFIDENTIAL", "rights_text": "-"}
+  РЕЗУЛЬТАТ: ВІДМОВА [denied] дискреційна відмова: немає права 'read' в ACL об'єкта
+
+#19 [carol / CONFIDENTIAL] DELETE ts-plan
+  -> {"action": "delete", "name": "ts-plan"}
+  <- {"type": "object_result", "ok": false, "action": "delete", "code": "denied", "reason": "дискреційна відмова: немає права 'delete' в ACL об'єкта", "rights_text": "-"}
+  РЕЗУЛЬТАТ: ВІДМОВА [denied] дискреційна відмова: немає права 'delete' в ACL об'єкта
+
+==============================================================================
+5. ПРИЗНАЧЕННЯ ПРАВ І МАНДАТНІ ОБМЕЖЕННЯ
+==============================================================================
+
+#20 [bob / SECRET] GRANT s-report
+  -> {"action": "grant", "name": "s-report", "target": "carol", "rights": "read"}
+  <- {"type": "object_result", "ok": true, "action": "grant", "name": "s-report", "target": "carol", "granted": ["read"], "rights": ["read"], "acl": [{"user": "carol", "rights": ["read"]}]}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#21 [carol / CONFIDENTIAL] READ s-report
+  -> {"action": "read", "name": "s-report"}
+  <- {"type": "object_result", "ok": false, "action": "read", "code": "denied", "reason": "no-read-up: clearance CONFIDENTIAL < classification SECRET", "level": "SECRET", "rights_text": "read"}
+  РЕЗУЛЬТАТ: ВІДМОВА [denied] no-read-up: clearance CONFIDENTIAL < classification SECRET
+
+#22 [bob / SECRET] GRANT s-report
+  -> {"action": "grant", "name": "s-report", "target": "carol", "rights": "append"}
+  <- {"type": "object_result", "ok": true, "action": "grant", "name": "s-report", "target": "carol", "granted": ["append"], "rights": ["read", "append"], "acl": [{"user": "carol", "rights": ["read", "append"]}]}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#23 [carol / CONFIDENTIAL] APPEND s-report
+  -> {"action": "append", "name": "s-report", "content": "CONFIDENTIAL: додано коментар Кароліни.\n"}
+  <- {"type": "object_result", "ok": true, "action": "append", "name": "s-report", "appended": 62, "size": 104, "object": {"name": "s-report", "owner": "bob", "level": "SECRET", "level_rank": 3, "kind": "text", "size": 104, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["read", "append"], "rights_text": "read, append", "readable": false, "read_blocked_by": "no-read-up: clearance CONFIDENTIAL < classification SECRET"}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#24 [bob / SECRET] GRANT s-report
+  -> {"action": "grant", "name": "s-report", "target": "alice", "rights": "append"}
+  <- {"type": "object_result", "ok": true, "action": "grant", "name": "s-report", "target": "alice", "granted": ["append"], "rights": ["append"], "acl": [{"user": "alice", "rights": ["append"]}, {"user": "carol", "rights": ["read", "append"]}]}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#25 [alice / TOP_SECRET] APPEND s-report
+  -> {"action": "append", "name": "s-report", "content": "TOP_SECRET: дописування вниз.\n"}
+  <- {"type": "object_result", "ok": false, "action": "append", "code": "denied", "reason": "no-write-down: clearance TOP_SECRET > classification SECRET", "level": "SECRET", "rights_text": "append"}
+  РЕЗУЛЬТАТ: ВІДМОВА [denied] no-write-down: clearance TOP_SECRET > classification SECRET
+
+#26 [bob / SECRET] GRANT s-report
+  -> {"action": "grant", "name": "s-report", "target": "alice", "rights": "read"}
+  <- {"type": "object_result", "ok": true, "action": "grant", "name": "s-report", "target": "alice", "granted": ["read"], "rights": ["read", "append"], "acl": [{"user": "alice", "rights": ["read", "append"]}, {"user": "carol", "rights": ["read", "append"]}]}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#27 [alice / TOP_SECRET] READ s-report
+  -> {"action": "read", "name": "s-report"}
+  <- {"type": "object_result", "ok": true, "action": "read", "name": "s-report", "content": "SECRET: звіт про інцидент.\nCONFIDENTIAL: додано коментар Кароліни.\n", "object": {"name": "s-report", "owner": "bob", "level": "SECRET", "level_rank": 3, "kind": "text", "size": 104, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["read", "append"], "rights_text": "read, append", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+==============================================================================
+6. ЧИТАННЯ ВНИЗ І ПРИЗНАЧЕННЯ ПРАВ НИЖЧОМУ РІВНЮ
+==============================================================================
+
+#28 [dave / UNCLASSIFIED] GRANT u-readme
+  -> {"action": "grant", "name": "u-readme", "target": "alice", "rights": "read"}
+  <- {"type": "object_result", "ok": true, "action": "grant", "name": "u-readme", "target": "alice", "granted": ["read"], "rights": ["read"], "acl": [{"user": "alice", "rights": ["read"]}]}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#29 [alice / TOP_SECRET] READ u-readme
+  -> {"action": "read", "name": "u-readme"}
+  <- {"type": "object_result", "ok": true, "action": "read", "name": "u-readme", "content": "Публічна інструкція лабораторної роботи.\nОб'єкт створено з текстового файлу.\n", "object": {"name": "u-readme", "owner": "dave", "level": "UNCLASSIFIED", "level_rank": 1, "kind": "file", "size": 142, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["read"], "rights_text": "read", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+==============================================================================
+7. СТВОРЕННЯ ВГОРУ ТА ЗАБОРОНА СТВОРЕННЯ ВНИЗ
+==============================================================================
+
+#30 [carol / CONFIDENTIAL] CREATE c-low
+  -> {"action": "create", "name": "c-low", "level": 1, "kind": "text", "content": "спроба запису вниз"}
+  <- {"type": "object_result", "ok": false, "action": "create", "code": "denied", "reason": "no-write-down: clearance CONFIDENTIAL > classification UNCLASSIFIED", "level": "UNCLASSIFIED"}
+  РЕЗУЛЬТАТ: ВІДМОВА [denied] no-write-down: clearance CONFIDENTIAL > classification UNCLASSIFIED
+
+#31 [carol / CONFIDENTIAL] CREATE c-archive
+  -> {"action": "create", "name": "c-archive", "level": 3, "kind": "text", "content": "CONFIDENTIAL: архів, класифікований як SECRET.\n"}
+  <- {"type": "object_result", "ok": true, "action": "create", "object_id": 11, "object": {"name": "c-archive", "owner": "carol", "level": "SECRET", "level_rank": 3, "kind": "text", "size": 68, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": false, "read_blocked_by": "no-read-up: clearance CONFIDENTIAL < classification SECRET"}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#32 [carol / CONFIDENTIAL] READ c-archive
+  -> {"action": "read", "name": "c-archive"}
+  <- {"type": "object_result", "ok": false, "action": "read", "code": "denied", "reason": "no-read-up: clearance CONFIDENTIAL < classification SECRET", "level": "SECRET", "rights_text": "owner, read, append, write, delete"}
+  РЕЗУЛЬТАТ: ВІДМОВА [denied] no-read-up: clearance CONFIDENTIAL < classification SECRET
+
+#33 [carol / CONFIDENTIAL] GRANT c-archive
+  -> {"action": "grant", "name": "c-archive", "target": "bob", "rights": "read"}
+  <- {"type": "object_result", "ok": true, "action": "grant", "name": "c-archive", "target": "bob", "granted": ["read"], "rights": ["read"], "acl": [{"user": "bob", "rights": ["read"]}]}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#34 [bob / SECRET] READ c-archive
+  -> {"action": "read", "name": "c-archive"}
+  <- {"type": "object_result", "ok": true, "action": "read", "name": "c-archive", "content": "CONFIDENTIAL: архів, класифікований як SECRET.\n", "object": {"name": "c-archive", "owner": "carol", "level": "SECRET", "level_rank": 3, "kind": "text", "size": 68, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["read"], "rights_text": "read", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+==============================================================================
+8. РІВНІ ПРИ ЗАМІНІ ВМІСТУ (write)
+==============================================================================
+
+#35 [bob / SECRET] GRANT s-report
+  -> {"action": "grant", "name": "s-report", "target": "alice", "rights": "write"}
+  <- {"type": "object_result", "ok": true, "action": "grant", "name": "s-report", "target": "alice", "granted": ["write"], "rights": ["read", "append", "write"], "acl": [{"user": "alice", "rights": ["read", "append", "write"]}, {"user": "carol", "rights": ["read", "append"]}]}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#36 [alice / TOP_SECRET] WRITE s-report
+  -> {"action": "write", "name": "s-report", "content": "спроба замінити SECRET з допуском TOP_SECRET"}
+  <- {"type": "object_result", "ok": false, "action": "write", "code": "denied", "reason": "no-write-down: clearance TOP_SECRET > classification SECRET", "level": "SECRET", "rights_text": "read, append, write"}
+  РЕЗУЛЬТАТ: ВІДМОВА [denied] no-write-down: clearance TOP_SECRET > classification SECRET
+
+#37 [dave / UNCLASSIFIED] WRITE u-faq
+  -> {"action": "write", "name": "u-faq", "content": "UNCLASSIFIED: оновлений FAQ.\n"}
+  <- {"type": "object_result", "ok": true, "action": "write", "name": "u-faq", "size": 38, "object": {"name": "u-faq", "owner": "dave", "level": "UNCLASSIFIED", "level_rank": 1, "kind": "text", "size": 38, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+==============================================================================
+9. ПРАВО DELETE І ВІДБИРАННЯ ПРАВ
+==============================================================================
+
+#38 [bob / SECRET] GRANT s-tasks
+  -> {"action": "grant", "name": "s-tasks", "target": "carol", "rights": "delete"}
+  <- {"type": "object_result", "ok": true, "action": "grant", "name": "s-tasks", "target": "carol", "granted": ["delete"], "rights": ["delete"], "acl": [{"user": "carol", "rights": ["delete"]}]}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#39 [carol / CONFIDENTIAL] DELETE s-tasks
+  -> {"action": "delete", "name": "s-tasks"}
+  <- {"type": "object_result", "ok": true, "action": "delete", "name": "s-tasks"}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#40 [bob / SECRET] REVOKE s-report
+  -> {"action": "revoke", "name": "s-report", "target": "carol", "rights": "read"}
+  <- {"type": "object_result", "ok": true, "action": "revoke", "name": "s-report", "target": "carol", "rights": ["append"]}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+#41 [carol / CONFIDENTIAL] READ s-report
+  -> {"action": "read", "name": "s-report"}
+  <- {"type": "object_result", "ok": false, "action": "read", "code": "denied", "reason": "дискреційна відмова: немає права 'read' в ACL об'єкта", "level": "SECRET", "rights_text": "append"}
+  РЕЗУЛЬТАТ: ВІДМОВА [denied] дискреційна відмова: немає права 'read' в ACL об'єкта
+
+==============================================================================
+10. ІНВЕНТАРИЗАЦІЯ ТА ЖУРНАЛ (АДМІНІСТРАТОР)
+==============================================================================
+
+#42 [alice / TOP_SECRET] INVENTORY
+  -> {"action": "inventory"}
+  <- {"type": "object_result", "ok": true, "action": "inventory", "count": 10, "objects": [{"name": "ts-keys", "owner": "alice", "level": "TOP_SECRET", "level_rank": 4, "kind": "file", "size": 81, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}, {"name": "ts-notes", "owner": "alice", "level": "TOP_SECRET", "level_rank": 4, "kind": "text", "size": 57, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}, {"name": "ts-plan", "owner": "alice", "level": "TOP_SECRET", "level_rank": 4, "kind": "text", "size": 73, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["owner", "read", "append", "write", "delete"], "rights_text": "owner, read, append, write, delete", "readable": true, "read_blocked_by": ""}, {"name": "c-archive", "owner": "carol", "level": "SECRET", "level_rank": 3, "kind": "text", "size": 68, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": [], "rights_text": "-", "readable": false, "read_blocked_by": ""}, {"name": "s-design", "owner": "bob", "level": "SECRET", "level_rank": 3, "kind": "text", "size": 50, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": [], "rights_text": "-", "readable": false, "read_blocked_by": ""}, {"name": "s-report", "owner": "bob", "level": "SECRET", "level_rank": 3, "kind": "text", "size": 104, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["read", "append", "write"], "rights_text": "read, append, write", "readable": true, "read_blocked_by": ""}, {"name": "c-budget", "owner": "carol", "level": "CONFIDENTIAL", "level_rank": 2, "kind": "text", "size": 49, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": [], "rights_text": "-", "readable": false, "read_blocked_by": ""}, {"name": "c-contacts", "owner": "carol", "level": "CONFIDENTIAL", "level_rank": 2, "kind": "text", "size": 51, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": [], "rights_text": "-", "readable": false, "read_blocked_by": ""}, {"name": "u-faq", "owner": "dave", "level": "UNCLASSIFIED", "level_rank": 1, "kind": "text", "size": 38, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": [], "rights_text": "-", "readable": false, "read_blocked_by": ""}, {"name": "u-readme", "owner": "dave", "level": "UNCLASSIFIED", "level_rank": 1, "kind": "file", "size": 142, "created_at": "2026-10-30T14:31:28+00:00", "updated_at": "2026-10-30T14:31:28+00:00", "rights": ["read"], "rights_text": "read", "readable": true, "read_blocked_by": ""}]}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+  Об'єкти на сервері (10): ts-keys, ts-notes, ts-plan, c-archive, s-design, s-report, c-budget, c-contacts, u-faq, u-readme
+
+#43 [alice / TOP_SECRET] AUDIT
+  -> {"action": "audit", "limit": 200}
+  <- {"type": "object_result", "ok": true, "action": "audit", "count": 51, "entries": [{"id": 51, "at": "2026-10-30T14:31:28+00:00", "user": "alice", "action": "audit", "object": null, "allowed": true, "reason": "", "event": "ADMIN-AUDIT-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64917", "session_id": "365981ca378f16a4", "details": "limit=200"}, {"id": 50, "at": "2026-10-30T14:31:28+00:00", "user": "alice", "action": "inventory", "object": null, "allowed": true, "reason": "", "event": "ADMIN-INVENTORY-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64917", "session_id": "365981ca378f16a4", "details": "count=10"}, {"id": 49, "at": "2026-10-30T14:31:28+00:00", "user": "carol", "action": "read", "object": "s-report", "allowed": false, "reason": "дискреційна відмова: немає права 'read' в ACL об'єкта", "event": "OBJECT-READ-DENY", "severity": "WARNING", "peer": "127.0.0.1:64921", "session_id": "a6c57c617a4fc3df", "details": ""}, {"id": 48, "at": "2026-10-30T14:31:28+00:00", "user": "bob", "action": "revoke", "object": "s-report", "allowed": true, "reason": "", "event": "OBJECT-REVOKE-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64919", "session_id": "00832a06baa5e0b9", "details": "target=carol; rights=append"}, {"id": 47, "at": "2026-10-30T14:31:28+00:00", "user": "carol", "action": "delete", "object": "s-tasks", "allowed": true, "reason": "", "event": "OBJECT-DELETE-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64921", "session_id": "a6c57c617a4fc3df", "details": ""}, {"id": 46, "at": "2026-10-30T14:31:28+00:00", "user": "bob", "action": "grant", "object": "s-tasks", "allowed": true, "reason": "", "event": "OBJECT-GRANT-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64919", "session_id": "00832a06baa5e0b9", "details": "target=carol; rights=delete"}, {"id": 45, "at": "2026-10-30T14:31:28+00:00", "user": "dave", "action": "write", "object": "u-faq", "allowed": true, "reason": "", "event": "OBJECT-WRITE-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64923", "session_id": "a03181892f506e86", "details": ""}, {"id": 44, "at": "2026-10-30T14:31:28+00:00", "user": "alice", "action": "write", "object": "s-report", "allowed": false, "reason": "no-write-down: clearance TOP_SECRET > classification SECRET", "event": "OBJECT-WRITE-DENY", "severity": "WARNING", "peer": "127.0.0.1:64917", "session_id": "365981ca378f16a4", "details": ""}, {"id": 43, "at": "2026-10-30T14:31:28+00:00", "user": "bob", "action": "grant", "object": "s-report", "allowed": true, "reason": "", "event": "OBJECT-GRANT-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64919", "session_id": "00832a06baa5e0b9", "details": "target=alice; rights=read, append, write"}, {"id": 42, "at": "2026-10-30T14:31:28+00:00", "user": "bob", "action": "read", "object": "c-archive", "allowed": true, "reason": "", "event": "OBJECT-READ-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64919", "session_id": "00832a06baa5e0b9", "details": ""}, {"id": 41, "at": "2026-10-30T14:31:28+00:00", "user": "carol", "action": "grant", "object": "c-archive", "allowed": true, "reason": "", "event": "OBJECT-GRANT-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64921", "session_id": "a6c57c617a4fc3df", "details": "target=bob; rights=read"}, {"id": 40, "at": "2026-10-30T14:31:28+00:00", "user": "carol", "action": "read", "object": "c-archive", "allowed": false, "reason": "no-read-up: clearance CONFIDENTIAL < classification SECRET", "event": "OBJECT-READ-DENY", "severity": "WARNING", "peer": "127.0.0.1:64921", "session_id": "a6c57c617a4fc3df", "details": ""}, {"id": 39, "at": "2026-10-30T14:31:28+00:00", "user": "carol", "action": "create", "object": "c-archive", "allowed": true, "reason": "", "event": "OBJECT-CREATE-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64921", "session_id": "a6c57c617a4fc3df", "details": ""}, {"id": 38, "at": "2026-10-30T14:31:28+00:00", "user": "carol", "action": "create", "object": "c-low", "allowed": false, "reason": "no-write-down: clearance CONFIDENTIAL > classification UNCLASSIFIED", "event": "OBJECT-CREATE-DENY", "severity": "WARNING", "peer": "127.0.0.1:64921", "session_id": "a6c57c617a4fc3df", "details": ""}, {"id": 37, "at": "2026-10-30T14:31:28+00:00", "user": "alice", "action": "read", "object": "u-readme", "allowed": true, "reason": "", "event": "OBJECT-READ-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64917", "session_id": "365981ca378f16a4", "details": ""}, {"id": 36, "at": "2026-10-30T14:31:28+00:00", "user": "dave", "action": "grant", "object": "u-readme", "allowed": true, "reason": "", "event": "OBJECT-GRANT-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64923", "session_id": "a03181892f506e86", "details": "target=alice; rights=read"}, {"id": 35, "at": "2026-10-30T14:31:28+00:00", "user": "alice", "action": "read", "object": "s-report", "allowed": true, "reason": "", "event": "OBJECT-READ-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64917", "session_id": "365981ca378f16a4", "details": ""}, {"id": 34, "at": "2026-10-30T14:31:28+00:00", "user": "bob", "action": "grant", "object": "s-report", "allowed": true, "reason": "", "event": "OBJECT-GRANT-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64919", "session_id": "00832a06baa5e0b9", "details": "target=alice; rights=read, append"}, {"id": 33, "at": "2026-10-30T14:31:28+00:00", "user": "alice", "action": "append", "object": "s-report", "allowed": false, "reason": "no-write-down: clearance TOP_SECRET > classification SECRET", "event": "OBJECT-APPEND-DENY", "severity": "WARNING", "peer": "127.0.0.1:64917", "session_id": "365981ca378f16a4", "details": ""}, {"id": 32, "at": "2026-10-30T14:31:28+00:00", "user": "bob", "action": "grant", "object": "s-report", "allowed": true, "reason": "", "event": "OBJECT-GRANT-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64919", "session_id": "00832a06baa5e0b9", "details": "target=alice; rights=append"}, {"id": 31, "at": "2026-10-30T14:31:28+00:00", "user": "carol", "action": "append", "object": "s-report", "allowed": true, "reason": "", "event": "OBJECT-APPEND-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64921", "session_id": "a6c57c617a4fc3df", "details": ""}, {"id": 30, "at": "2026-10-30T14:31:28+00:00", "user": "bob", "action": "grant", "object": "s-report", "allowed": true, "reason": "", "event": "OBJECT-GRANT-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64919", "session_id": "00832a06baa5e0b9", "details": "target=carol; rights=read, append"}, {"id": 29, "at": "2026-10-30T14:31:28+00:00", "user": "carol", "action": "read", "object": "s-report", "allowed": false, "reason": "no-read-up: clearance CONFIDENTIAL < classification SECRET", "event": "OBJECT-READ-DENY", "severity": "WARNING", "peer": "127.0.0.1:64921", "session_id": "a6c57c617a4fc3df", "details": ""}, {"id": 28, "at": "2026-10-30T14:31:28+00:00", "user": "bob", "action": "grant", "object": "s-report", "allowed": true, "reason": "", "event": "OBJECT-GRANT-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64919", "session_id": "00832a06baa5e0b9", "details": "target=carol; rights=read"}, {"id": 27, "at": "2026-10-30T14:31:28+00:00", "user": "carol", "action": "delete", "object": "ts-plan", "allowed": false, "reason": "дискреційна відмова: немає права 'delete' в ACL об'єкта", "event": "OBJECT-DELETE-DENY", "severity": "WARNING", "peer": "127.0.0.1:64921", "session_id": "a6c57c617a4fc3df", "details": ""}, {"id": 26, "at": "2026-10-30T14:31:28+00:00", "user": "dave", "action": "read", "object": "c-budget", "allowed": false, "reason": "дискреційна відмова: немає права 'read' в ACL об'єкта", "event": "OBJECT-READ-DENY", "severity": "WARNING", "peer": "127.0.0.1:64923", "session_id": "a03181892f506e86", "details": ""}, {"id": 25, "at": "2026-10-30T14:31:28+00:00", "user": "alice", "action": "read", "object": "s-report", "allowed": false, "reason": "дискреційна відмова: немає права 'read' в ACL об'єкта", "event": "OBJECT-READ-DENY", "severity": "WARNING", "peer": "127.0.0.1:64917", "session_id": "365981ca378f16a4", "details": ""}, {"id": 24, "at": "2026-10-30T14:31:28+00:00", "user": "dave", "action": "read", "object": "u-readme", "allowed": true, "reason": "", "event": "OBJECT-READ-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64923", "session_id": "a03181892f506e86", "details": ""}, {"id": 23, "at": "2026-10-30T14:31:28+00:00", "user": "carol", "action": "read", "object": "c-budget", "allowed": true, "reason": "", "event": "OBJECT-READ-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64921", "session_id": "a6c57c617a4fc3df", "details": ""}, {"id": 22, "at": "2026-10-30T14:31:28+00:00", "user": "bob", "action": "read", "object": "s-report", "allowed": true, "reason": "", "event": "OBJECT-READ-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64919", "session_id": "00832a06baa5e0b9", "details": ""}, {"id": 21, "at": "2026-10-30T14:31:28+00:00", "user": "alice", "action": "write", "object": "ts-plan", "allowed": true, "reason": "", "event": "OBJECT-WRITE-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64917", "session_id": "365981ca378f16a4", "details": ""}, {"id": 20, "at": "2026-10-30T14:31:28+00:00", "user": "alice", "action": "read", "object": "ts-plan", "allowed": true, "reason": "", "event": "OBJECT-READ-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64917", "session_id": "365981ca378f16a4", "details": ""}, {"id": 19, "at": "2026-10-30T14:31:28+00:00", "user": "alice", "action": "list", "object": null, "allowed": true, "reason": "", "event": "OBJECT-LIST-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64917", "session_id": "365981ca378f16a4", "details": "count=3"}, {"id": 18, "at": "2026-10-30T14:31:28+00:00", "user": "dave", "action": "create", "object": "u-faq", "allowed": true, "reason": "", "event": "OBJECT-CREATE-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64923", "session_id": "a03181892f506e86", "details": ""}, {"id": 17, "at": "2026-10-30T14:31:28+00:00", "user": "dave", "action": "create", "object": "u-readme", "allowed": true, "reason": "", "event": "OBJECT-CREATE-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64923", "session_id": "a03181892f506e86", "details": ""}, {"id": 16, "at": "2026-10-30T14:31:28+00:00", "user": "carol", "action": "create", "object": "c-contacts", "allowed": true, "reason": "", "event": "OBJECT-CREATE-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64921", "session_id": "a6c57c617a4fc3df", "details": ""}, {"id": 15, "at": "2026-10-30T14:31:28+00:00", "user": "carol", "action": "create", "object": "c-budget", "allowed": true, "reason": "", "event": "OBJECT-CREATE-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64921", "session_id": "a6c57c617a4fc3df", "details": ""}, {"id": 14, "at": "2026-10-30T14:31:28+00:00", "user": "bob", "action": "create", "object": "s-tasks", "allowed": true, "reason": "", "event": "OBJECT-CREATE-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64919", "session_id": "00832a06baa5e0b9", "details": ""}, {"id": 13, "at": "2026-10-30T14:31:28+00:00", "user": "bob", "action": "create", "object": "s-design", "allowed": true, "reason": "", "event": "OBJECT-CREATE-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64919", "session_id": "00832a06baa5e0b9", "details": ""}, {"id": 12, "at": "2026-10-30T14:31:28+00:00", "user": "bob", "action": "create", "object": "s-report", "allowed": true, "reason": "", "event": "OBJECT-CREATE-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64919", "session_id": "00832a06baa5e0b9", "details": ""}, {"id": 11, "at": "2026-10-30T14:31:28+00:00", "user": "alice", "action": "create", "object": "ts-notes", "allowed": true, "reason": "", "event": "OBJECT-CREATE-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64917", "session_id": "365981ca378f16a4", "details": ""}, {"id": 10, "at": "2026-10-30T14:31:28+00:00", "user": "alice", "action": "create", "object": "ts-keys", "allowed": true, "reason": "", "event": "OBJECT-CREATE-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64917", "session_id": "365981ca378f16a4", "details": ""}, {"id": 9, "at": "2026-10-30T14:31:28+00:00", "user": "alice", "action": "create", "object": "ts-plan", "allowed": true, "reason": "", "event": "OBJECT-CREATE-ALLOW", "severity": "INFO", "peer": "127.0.0.1:64917", "session_id": "365981ca378f16a4", "details": ""}, {"id": 8, "at": "2026-10-30T14:31:28+00:00", "user": "dave", "action": "login", "object": null, "allowed": true, "reason": "", "event": "AUTH-SUCCESS", "severity": "INFO", "peer": "127.0.0.1:64923", "session_id": "a03181892f506e86", "details": "level=UNCLASSIFIED; role=user"}, {"id": 7, "at": "2026-10-30T14:31:28+00:00", "user": "dave", "action": "enroll", "object": null, "allowed": true, "reason": "", "event": "ENROLL-SUCCESS", "severity": "INFO", "peer": "127.0.0.1:64922", "session_id": null, "details": "algorithm=SHA256; level=UNCLASSIFIED; role=user"}, {"id": 6, "at": "2026-10-30T14:31:28+00:00", "user": "carol", "action": "login", "object": null, "allowed": true, "reason": "", "event": "AUTH-SUCCESS", "severity": "INFO", "peer": "127.0.0.1:64921", "session_id": "a6c57c617a4fc3df", "details": "level=CONFIDENTIAL; role=user"}, {"id": 5, "at": "2026-10-30T14:31:28+00:00", "user": "carol", "action": "enroll", "object": null, "allowed": true, "reason": "", "event": "ENROLL-SUCCESS", "severity": "INFO", "peer": "127.0.0.1:64920", "session_id": null, "details": "algorithm=SHA256; level=CONFIDENTIAL; role=user"}, {"id": 4, "at": "2026-10-30T14:31:28+00:00", "user": "bob", "action": "login", "object": null, "allowed": true, "reason": "", "event": "AUTH-SUCCESS", "severity": "INFO", "peer": "127.0.0.1:64919", "session_id": "00832a06baa5e0b9", "details": "level=SECRET; role=user"}, {"id": 3, "at": "2026-10-30T14:31:28+00:00", "user": "bob", "action": "enroll", "object": null, "allowed": true, "reason": "", "event": "ENROLL-SUCCESS", "severity": "INFO", "peer": "127.0.0.1:64918", "session_id": null, "details": "algorithm=SHA256; level=SECRET; role=user"}, {"id": 2, "at": "2026-10-30T14:31:28+00:00", "user": "alice", "action": "login", "object": null, "allowed": true, "reason": "", "event": "AUTH-SUCCESS", "severity": "INFO", "peer": "127.0.0.1:64917", "session_id": "365981ca378f16a4", "details": "level=TOP_SECRET; role=admin"}, {"id": 1, "at": "2026-10-30T14:31:28+00:00", "user": "alice", "action": "enroll", "object": null, "allowed": true, "reason": "", "event": "ENROLL-SUCCESS", "severity": "INFO", "peer": "127.0.0.1:64916", "session_id": null, "details": "algorithm=SHA256; level=TOP_SECRET; role=admin"}]}
+  РЕЗУЛЬТАТ: ДОЗВОЛЕНО
+
+==============================================================================
+ПІДСУМОК
+==============================================================================
+Усі кроки виконано; очікувані дозволи й відмови збіглися.
+Модель: Белла-ЛаПадула без категорій.
+Права: owner (власник), read, append, write, delete — 5 прав.
+Рівні: 1 UNCLASSIFIED < 2 CONFIDENTIAL < 3 SECRET < 4 TOP_SECRET.
+Повний протокол: D:\cybersecurity\lab10\logs\lab10_blp_protocol.log

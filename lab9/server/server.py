@@ -41,9 +41,16 @@ import threading
 import time
 from typing import Dict, List, Optional
 
-# Дозволяє запускати файл напряму: python server/server.py ...
-if __package__ in (None, ""):
-    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Корінь проєкту додається до sys.path завжди: це дозволяє запускати і
+# ``python server/server.py``, і ``python -m server.server``, і
+# ``python -m lab9.server.server`` з батьківського каталогу.
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if sys.path[:1] != [PROJECT_ROOT]:
+    try:
+        sys.path.remove(PROJECT_ROOT)
+    except ValueError:
+        pass
+    sys.path.insert(0, PROJECT_ROOT)
 
 from common.crypto import DEFAULT_ALGORITHM, compute_response, normalize_algorithm, random_bytes
 from common.protocol import (
