@@ -1,4 +1,3 @@
-# Перестановки та таблиці заміни для S-DES
 P10 = [3, 5, 2, 7, 4, 10, 1, 9, 8, 6]
 P8  = [6, 3, 7, 4, 8, 5, 10, 9]
 
@@ -85,7 +84,6 @@ def bits_to_text(bits_list: list[str]) -> str:
     """Перетворює список 8-бітних рядків назад у текст."""
     data = bytes(int(b, 2) for b in bits_list)
     return data.decode("utf-8")
-
 
 def main():
     print("=== Спрощений алгоритм шифрування S-DES ===")
